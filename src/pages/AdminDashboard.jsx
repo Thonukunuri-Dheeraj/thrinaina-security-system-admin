@@ -1,13 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { api, logout, isAuthenticated } from '../services/api';
+import { api, logout } from '../services/api';
 import logoImg from '../assets/logo.jpg';
 import { 
   Shield, 
   Calendar, 
   Wrench, 
   Users, 
-  Inbox, 
   TrendingUp, 
   Search, 
   Download, 
@@ -16,13 +15,7 @@ import {
   Clock, 
   AlertCircle, 
   LogOut, 
-  ChevronRight, 
   User, 
-  MapPin, 
-  Phone, 
-  Mail, 
-  Tag, 
-  Lock,
   Trash2,
   X,
   Menu
@@ -58,11 +51,6 @@ export default function AdminDashboard() {
   const [editingRequest, setEditingRequest] = useState(null); // { id, status, admin_notes }
   const [selectedClient, setSelectedClient] = useState(null);
 
-  // Fetch dashboard data
-  useEffect(() => {
-    fetchDashboardData();
-  }, []);
-
   const fetchDashboardData = async () => {
     setLoading(true);
     setError(null);
@@ -94,6 +82,14 @@ export default function AdminDashboard() {
       setLoading(false);
     }
   };
+
+  // Fetch dashboard data
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      fetchDashboardData();
+    }, 0);
+    return () => clearTimeout(timer);
+  }, []);
 
   const handleRefresh = async () => {
     setRefreshing(true);

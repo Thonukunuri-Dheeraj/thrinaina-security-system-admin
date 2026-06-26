@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { api, isAuthenticated } from '../services/api';
-import { Shield, Lock, User, Eye, EyeOff, AlertTriangle } from 'lucide-react';
+import { Lock, User, Eye, EyeOff, AlertTriangle } from 'lucide-react';
 import logoImg from '../assets/logo.jpg';
 
 export default function AdminLogin() {

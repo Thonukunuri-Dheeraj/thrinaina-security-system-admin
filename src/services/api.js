@@ -1,4 +1,4 @@
-const API_BASE_URL = import.meta.env.VITE_API_URL || (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5000/api' : '/api');
+const API_BASE_URL = `${import.meta.env.VITE_API_URL || 'https://thrinaina-security-system-backend-1.onrender.com'}/api`;
 
 // Helper to set and get JWT tokens
 const ADMIN_TOKEN_KEY = 'thrinaina_admin_token';

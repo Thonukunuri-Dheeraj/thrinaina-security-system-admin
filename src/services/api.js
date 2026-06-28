@@ -57,14 +57,32 @@ const fetchWithAuth = async (endpoint, options = {}) => {
     headers['Authorization'] = `Bearer ${token}`;
   }
 
-  const response = await fetch(`${API_BASE_URL}${endpoint}`, {
-    ...options,
-    headers,
-  });
+  let response;
+  try {
+    response = await fetch(`${API_BASE_URL}${endpoint}`, {
+      ...options,
+      headers,
+    });
+  } catch (error) {
+    console.error(`[API Network Error] Failed to connect to ${endpoint}:`, error);
+    throw new Error('Connection refused or backend server is offline.');
+  }
 
-  const data = await response.json();
+  let data;
+  try {
+    data = await response.json();
+  } catch (parseError) {
+    throw new Error('Invalid response format from server.');
+  }
   
   if (!response.ok) {
+    if (response.status === 401) {
+      logout();
+      window.dispatchEvent(new Event('storage'));
+      window.location.href = '#/login';
+      window.location.reload();
+      throw new Error('Session expired. Please log in again.');
+    }
     throw new Error(data.message || 'Something went wrong');
   }
 
@@ -84,14 +102,32 @@ const fetchWithCustomerAuth = async (endpoint, options = {}) => {
     headers['Authorization'] = `Bearer ${token}`;
   }
 
-  const response = await fetch(`${API_BASE_URL}${endpoint}`, {
-    ...options,
-    headers,
-  });
+  let response;
+  try {
+    response = await fetch(`${API_BASE_URL}${endpoint}`, {
+      ...options,
+      headers,
+    });
+  } catch (error) {
+    console.error(`[API Network Error] Failed to connect to ${endpoint}:`, error);
+    throw new Error('Connection refused or backend server is offline.');
+  }
 
-  const data = await response.json();
+  let data;
+  try {
+    data = await response.json();
+  } catch (parseError) {
+    throw new Error('Invalid response format from server.');
+  }
   
   if (!response.ok) {
+    if (response.status === 401) {
+      customerLogout();
+      window.dispatchEvent(new Event('storage'));
+      window.location.href = '#/login';
+      window.location.reload();
+      throw new Error('Session expired. Please log in again.');
+    }
     throw new Error(data.message || 'Something went wrong');
   }
 
